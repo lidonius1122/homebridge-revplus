@@ -8,7 +8,7 @@ Die REV Plus Cloud bietet eine WebSocket-basierte Alarm API zur Anbindung von Sm
 
 ### Personal Access Token (PAT) erstellen
 
-1. Melde dich im [REV Plus Cloud-Portal](https://cloud.einsatzverwaltung.de) an
+1. Melde dich im [REV Plus Cloud-Portal](https://portal.revplus.cloud/) an
 2. Navigiere zu **Access Tokens**
 3. Klicke auf **Neuen PAT erstellen**
 4. Vergib einen Namen für den Token

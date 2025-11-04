@@ -37,7 +37,7 @@ npm install -g homebridge-revplus
 
 ### 1. REV Plus Access Token erstellen
 
-1. Melde dich im [REV Plus Cloud-Portal](https://cloud.einsatzverwaltung.de) an
+1. Melde dich im [REV Plus Cloud-Portal](https://portal.revplus.cloud/) an
 2. Navigiere zu **Access Tokens**
 3. Klicke auf **Neuen PAT erstellen**
 4. Vergib einen Namen (z.B. "Homebridge")

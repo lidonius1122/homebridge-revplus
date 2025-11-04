@@ -35,7 +35,7 @@
       "items": [
         {
           "type": "help",
-          "helpvalue": "<p>To use this plugin, you need a Personal Access Token from REV Plus Cloud:</p><ol><li>Log in to <a href='https://cloud.einsatzverwaltung.de' target='_blank'>REV Plus Cloud Portal</a></li><li>Go to 'Access Tokens'</li><li>Create new PAT with <strong>WS Alarm API</strong> permission</li><li>Copy the token and paste it below</li></ol>"
+          "helpvalue": "<p>To use this plugin, you need a Personal Access Token from REV Plus Cloud:</p><ol><li>Log in to <a href='https://portal.revplus.cloud/' target='_blank'>REV Plus Cloud Portal</a></li><li>Go to 'Access Tokens'</li><li>Create new PAT with <strong>WS Alarm API</strong> permission</li><li>Copy the token and paste it below</li></ol>"
         },
         "accessToken"
       ]
