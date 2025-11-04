@@ -294,9 +294,8 @@ MIT
 
 ## Support
 
-Bei Fragen oder Problemen:
+Bei Fragen oder Problemen mit diesem Plugin:
 - GitHub Issues: [https://github.com/lidonius1122/homebridge-revplus/issues](https://github.com/lidonius1122/homebridge-revplus/issues)
-- REV Plus Support: [support@revosax.de](mailto:support@revosax.de)
 
 ## Changelog
 
