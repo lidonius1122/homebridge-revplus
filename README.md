@@ -21,13 +21,28 @@ Homebridge-Plugin zur Integration von REV Plus Feuerwehr-Alarmierungen in Apple 
 
 ## Installation
 
-### Via Homebridge Config UI X (empfohlen)
+### Direkt von GitHub (empfohlen)
 
-1. Suche nach "REV Plus" oder "homebridge-revplus" in der Plugin-Suche
-2. Klicke auf "Installieren"
-3. Konfiguriere das Plugin (siehe Konfiguration unten)
+Da das Plugin noch nicht auf npmjs.com veröffentlicht ist, installiere es direkt von GitHub:
 
-### Manuell via npm
+```bash
+npm install -g github:lidonius1122/homebridge-revplus
+```
+
+**Hinweis:** Bei der GitHub-Installation wird das Plugin automatisch gebaut (via `prepublishOnly` Script).
+
+### Via Homebridge Config UI X
+
+Alternativ kannst du das Plugin auch über die Homebridge Config UI installieren:
+
+1. Öffne die Homebridge Config UI
+2. Gehe zu "Plugins" → "Install Plugin"
+3. Gib ein: `github:lidonius1122/homebridge-revplus`
+4. Klicke auf "Install"
+
+### Via npm (zukünftig)
+
+Sobald das Plugin auf npmjs.com veröffentlicht wird:
 
 ```bash
 npm install -g homebridge-revplus
