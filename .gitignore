@@ -4,7 +4,6 @@ npm-debug.log
 package-lock.json
 
 # TypeScript
-dist/
 *.tsbuildinfo
 
 # IDE

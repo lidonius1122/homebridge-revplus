@@ -1,6 +1,6 @@
-# Source files
-src/
-tsconfig.json
+# Source files (keep for development, but dist/ is what matters)
+# src/
+# tsconfig.json
 
 # Tests and development
 tests/
