@@ -4,14 +4,14 @@
   "displayName": "REV Plus Alarm",
   "description": "Homebridge plugin for REV Plus fire department alarm integration with contact sensor and availability switch",
   "license": "MIT",
-  "author": "Your Name",
-  "homepage": "https://github.com/yourusername/homebridge-revplus#readme",
+  "author": "Oliver Faust <oliver@f4ust.de>",
+  "homepage": "https://github.com/lidonius1122/homebridge-revplus#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yourusername/homebridge-revplus.git"
+    "url": "git+https://github.com/lidonius1122/homebridge-revplus.git"
   },
   "bugs": {
-    "url": "https://github.com/yourusername/homebridge-revplus/issues"
+    "url": "https://github.com/lidonius1122/homebridge-revplus/issues"
   },
   "engines": {
     "node": "^18.17.0 || ^20.9.0",

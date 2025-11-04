@@ -209,7 +209,7 @@ MIT
 ## Support
 
 Bei Fragen oder Problemen:
-- GitHub Issues: [https://github.com/yourusername/homebridge-revplus/issues](https://github.com/yourusername/homebridge-revplus/issues)
+- GitHub Issues: [https://github.com/lidonius1122/homebridge-revplus/issues](https://github.com/lidonius1122/homebridge-revplus/issues)
 - REV Plus Support: [support@revosax.de](mailto:support@revosax.de)
 
 ## Changelog
