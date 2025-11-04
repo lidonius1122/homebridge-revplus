@@ -71,19 +71,81 @@ npm install -g homebridge-revplus
 5. Optional: Passe die Alarm-Dauer an (Standard: 300 Sekunden / 5 Minuten)
 6. Speichern und Homebridge neu starten
 
-#### Manuell in config.json
+#### Manuell in config.json (Empfohlen wenn Plugin nicht in UI angezeigt wird)
+
+**Schritt 1: config.json Datei finden und öffnen**
+
+Die Homebridge Konfigurationsdatei liegt normalerweise hier:
+- Standard-Installation: `/var/lib/homebridge/config.json`
+- Docker: Im gemounteten Volume (z.B. `/homebridge/config.json`)
+- Manuelle Installation: `~/.homebridge/config.json`
+
+**Schritt 2: config.json bearbeiten**
+
+Öffne die Datei mit einem Editor (z.B. `nano`, `vi`, oder über die Config UI):
+
+```bash
+# Beispiel mit nano:
+sudo nano /var/lib/homebridge/config.json
+```
+
+**Schritt 3: Plugin zur Platform-Liste hinzufügen**
+
+Füge folgenden Block in das `"platforms"` Array ein:
 
 ```json
 {
+  "bridge": {
+    "name": "Homebridge",
+    "username": "...",
+    "port": 51826,
+    "pin": "..."
+  },
   "platforms": [
     {
       "platform": "REVPlusAlarm",
       "name": "REV Plus Alarm",
-      "accessToken": "dein_access_token_hier",
+      "accessToken": "DEIN_REV_PLUS_TOKEN_HIER",
       "alarmDuration": 300
     }
   ]
 }
+```
+
+**Wichtig:**
+- Ersetze `DEIN_REV_PLUS_TOKEN_HIER` mit deinem tatsächlichen REV Plus Access Token
+- `alarmDuration` ist optional (Standard: 300 Sekunden = 5 Minuten)
+- Achte auf korrekte JSON-Syntax (Kommas zwischen Einträgen!)
+
+**Schritt 4: Homebridge neu starten**
+
+```bash
+# Systemd (Standard):
+sudo systemctl restart homebridge
+
+# Docker:
+docker restart homebridge
+
+# Manuell (wenn als Service läuft):
+sudo service homebridge restart
+```
+
+**Schritt 5: Installation überprüfen**
+
+Nach dem Neustart kannst du im Homebridge-Log prüfen, ob das Plugin geladen wurde:
+
+```bash
+# Log anzeigen:
+sudo journalctl -u homebridge -f
+
+# Oder in der Config UI unter "Logs"
+```
+
+Du solltest Meldungen wie diese sehen:
+```
+[REV Plus Alarm] REV Plus Platform finished initializing
+[REV Plus Alarm] Setting up WebSocket connection...
+[REV Plus Alarm] Connecting to REV Plus WebSocket API...
 ```
 
 **Konfigurationsparameter:**
@@ -154,11 +216,20 @@ Das Plugin schreibt detaillierte Informationen ins Homebridge-Log:
 
 ## Troubleshooting
 
-### Plugin startet nicht
+### Plugin erscheint nicht in Config UI X nach Installation
+
+- Homebridge neu starten nach der Installation
+- Browser-Cache leeren und Config UI neu laden
+- Prüfe ob das Plugin installiert ist: `npm list -g homebridge-revplus`
+- **Lösung:** Manuelle Konfiguration in config.json (siehe oben)
+
+### Plugin startet nicht / Fehler beim Laden
 
 - Überprüfe, ob der Access Token korrekt konfiguriert ist
 - Stelle sicher, dass der Token die Berechtigung "WS Alarm API" hat
 - Prüfe, ob der Token noch gültig ist (Token laufen nach einer bestimmten Zeit ab)
+- **JSON-Syntax:** Achte auf korrekte Kommas und Anführungszeichen in der config.json
+- Prüfe das Homebridge-Log auf Fehlermeldungen: `sudo journalctl -u homebridge -f`
 
 ### Keine Alarme empfangen
 
