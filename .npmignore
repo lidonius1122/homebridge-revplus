@@ -1,0 +1,33 @@
+# Source files
+src/
+tsconfig.json
+
+# Tests and development
+tests/
+*.test.ts
+*.spec.ts
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Documentation (except README)
+docs/
+
+# Database
+alarm_data.db
+
+# CI/CD
+.github/
+.gitlab-ci.yml

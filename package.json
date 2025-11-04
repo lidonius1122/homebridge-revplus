@@ -1,0 +1,45 @@
+{
+  "name": "homebridge-revplus",
+  "version": "1.0.0",
+  "displayName": "REV Plus Alarm",
+  "description": "Homebridge plugin for REV Plus fire department alarm integration with contact sensor and availability switch",
+  "license": "MIT",
+  "author": "Your Name",
+  "homepage": "https://github.com/yourusername/homebridge-revplus#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yourusername/homebridge-revplus.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/homebridge-revplus/issues"
+  },
+  "engines": {
+    "node": "^18.17.0 || ^20.9.0",
+    "homebridge": "^1.8.0"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "rimraf ./dist && tsc",
+    "watch": "npm run build && npm link && nodemon",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "homebridge-plugin",
+    "homebridge",
+    "rev-plus",
+    "fire-department",
+    "alarm",
+    "emergency"
+  ],
+  "dependencies": {
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.16",
+    "@types/ws": "^8.5.10",
+    "homebridge": "^1.8.0",
+    "nodemon": "^3.0.3",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  }
+}

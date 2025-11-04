@@ -1,93 +1,222 @@
-# homebridge-revplus
+# Homebridge REV Plus Alarm
 
+Homebridge-Plugin zur Integration von REV Plus Feuerwehr-Alarmierungen in Apple HomeKit.
 
+## Features
 
-## Getting started
+- **Verfügbarkeits-Schalter**: Zeigt deinen REV Plus Verfügbarkeitsstatus in HomeKit an
+  - AN: Verfügbar oder Verspätet verfügbar
+  - AUS: Nicht verfügbar, Urlaub, Krank, Quarantäne
+  - Status wird persistent gespeichert und bei Neustart wiederhergestellt
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+- **Alarm-Kontaktsensor**: Wird bei Einsatzalarmierung getriggert
+  - Automatischer Reset nach konfigurierbarer Zeit (Standard: 5 Minuten)
+  - Detaillierte Alarm-Informationen im Homebridge-Log
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
-
-## Add your files
-
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
-
-```
-cd existing_repo
-git remote add origin https://git.lidonius.net/lidonius/homebridge-revplus.git
-git branch -M main
-git push -uf origin main
-```
-
-## Integrate with your tools
-
-- [ ] [Set up project integrations](https://git.lidonius.net/lidonius/homebridge-revplus/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+- **HomeKit Automatisierungen**: Nutze Alarme für Automatisierungen
+  - Lichter einschalten bei Alarm
+  - Benachrichtigungen an andere Geräte
+  - Szenen aktivieren
+  - Und vieles mehr...
 
 ## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Via Homebridge Config UI X (empfohlen)
+
+1. Suche nach "REV Plus" oder "homebridge-revplus" in der Plugin-Suche
+2. Klicke auf "Installieren"
+3. Konfiguriere das Plugin (siehe Konfiguration unten)
+
+### Manuell via npm
+
+```bash
+npm install -g homebridge-revplus
+```
+
+## Konfiguration
+
+### 1. REV Plus Access Token erstellen
+
+1. Melde dich im [REV Plus Cloud-Portal](https://cloud.einsatzverwaltung.de) an
+2. Navigiere zu **Access Tokens**
+3. Klicke auf **Neuen PAT erstellen**
+4. Vergib einen Namen (z.B. "Homebridge")
+5. Aktiviere die Berechtigung **WS Alarm API**
+6. Klicke auf **Zugriffsschlüssel erstellen**
+7. **Wichtig:** Kopiere den Token sofort - er wird nur einmalig angezeigt!
+
+### 2. Plugin konfigurieren
+
+#### Via Homebridge Config UI X
+
+1. Öffne die Homebridge Config UI
+2. Gehe zu "Plugins" und suche dein installiertes REV Plus Plugin
+3. Klicke auf "Einstellungen"
+4. Trage deinen Access Token ein
+5. Optional: Passe die Alarm-Dauer an (Standard: 300 Sekunden / 5 Minuten)
+6. Speichern und Homebridge neu starten
+
+#### Manuell in config.json
+
+```json
+{
+  "platforms": [
+    {
+      "platform": "REVPlusAlarm",
+      "name": "REV Plus Alarm",
+      "accessToken": "dein_access_token_hier",
+      "alarmDuration": 300
+    }
+  ]
+}
+```
+
+**Konfigurationsparameter:**
+
+| Parameter | Typ | Erforderlich | Standard | Beschreibung |
+|-----------|-----|--------------|----------|--------------|
+| `platform` | string | Ja | - | Muss `REVPlusAlarm` sein |
+| `name` | string | Ja | - | Name der Platform in Homebridge |
+| `accessToken` | string | Ja | - | Dein REV Plus WebSocket API Token |
+| `alarmDuration` | number | Nein | 300 | Dauer in Sekunden, wie lange der Alarm-Kontaktsensor aktiv bleibt |
+
+## Verwendung in HomeKit
+
+### Geräte
+
+Nach der Installation findest du zwei neue Geräte in der Home-App:
+
+1. **REV Plus Verfügbarkeit** (Schalter)
+   - Zeigt deinen aktuellen Verfügbarkeitsstatus
+   - Read-only (Status kann nur über die REV Plus App geändert werden)
+
+2. **REV Plus Einsatzalarm** (Kontaktsensor)
+   - Wird bei Alarmierung getriggert (Kontakt "offen")
+   - Setzt sich automatisch nach konfigurierbarer Zeit zurück
+
+### Automatisierungen erstellen
+
+**Beispiel 1: Lichter bei Alarm einschalten**
+1. Home-App öffnen → Automation → Neue Automation
+2. "Wenn ein Sensor etwas erkennt" → REV Plus Einsatzalarm → "Wird geöffnet"
+3. Aktion hinzufügen: Lichter einschalten
+4. Fertig
+
+**Beispiel 2: Benachrichtigung bei Alarm**
+1. Home-App öffnen → Automation → Neue Automation
+2. "Wenn ein Sensor etwas erkennt" → REV Plus Einsatzalarm → "Wird geöffnet"
+3. Aktion hinzufügen: Benachrichtigung senden (iOS 17+)
+4. Nachrichtentext eingeben
+5. Fertig
+
+**Beispiel 3: Szene nur wenn verfügbar**
+1. Erstelle eine Automation mit beliebigem Trigger
+2. Füge Bedingung hinzu: "REV Plus Verfügbarkeit" ist "AN"
+3. Füge Aktionen hinzu
+4. Fertig
+
+## Logging
+
+Das Plugin schreibt detaillierte Informationen ins Homebridge-Log:
+
+```
+[REV Plus Alarm] Connecting to REV Plus WebSocket API...
+[REV Plus Alarm] WebSocket connection established
+[REV Plus Alarm] Connected as: max.mustermann@feuerwehr-beispiel.de
+[REV Plus Alarm] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[REV Plus Alarm] ALARM RECEIVED
+[REV Plus Alarm] Einsatznummer: 12345
+[REV Plus Alarm] Stichwort: H-1 - Türöffnung
+[REV Plus Alarm] Meldung: Person hinter Tür
+[REV Plus Alarm] Adresse: Hauptstraße 12, 12345 Teststadt
+[REV Plus Alarm] Objekt: Grundschule
+[REV Plus Alarm] Deine Gruppen: Stadtteil A-Dorf
+[REV Plus Alarm] Priorität: 2 | SOSI: Ja
+[REV Plus Alarm] ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+[REV Plus Alarm] Triggering alarm contact sensor
+[REV Plus Alarm] Alarm sensor will auto-reset in 300 seconds
+```
+
+## Troubleshooting
+
+### Plugin startet nicht
+
+- Überprüfe, ob der Access Token korrekt konfiguriert ist
+- Stelle sicher, dass der Token die Berechtigung "WS Alarm API" hat
+- Prüfe, ob der Token noch gültig ist (Token laufen nach einer bestimmten Zeit ab)
+
+### Keine Alarme empfangen
+
+- Überprüfe die Verbindung im Homebridge-Log
+- Teste, ob die REV Plus App Alarme empfängt
+- Stelle sicher, dass der Token die richtigen Berechtigungen hat
+
+### Verfügbarkeitsstatus wird nicht aktualisiert
+
+- Die API sendet keinen initialen Status beim Verbindungsaufbau
+- Der Status wird erst aktualisiert, wenn du ihn in der REV Plus App änderst
+- Der letzte bekannte Status wird persistent gespeichert
+
+### WebSocket-Verbindung bricht ab
+
+- Das Plugin versucht automatisch, die Verbindung wiederherzustellen
+- Bei wiederholten Abbrüchen prüfe deine Internetverbindung
+- Überprüfe, ob der Token noch gültig ist
+
+## API Dokumentation
+
+Vollständige REV Plus API-Dokumentation: [API.md](API.md)
+
+## Entwicklung
+
+### Projekt builden
+
+```bash
+# Dependencies installieren
+npm install
+
+# TypeScript kompilieren
+npm run build
+
+# Plugin lokal linken (für Entwicklung)
+npm link
+
+# Watch mode (automatisches Neukompilieren bei Änderungen)
+npm run watch
+```
+
+### Projekt-Struktur
+
+```
+homebridge-revplus/
+├── src/
+│   ├── index.ts              # Plugin Entry Point
+│   ├── platform.ts           # Haupt-Platform-Klasse
+│   ├── settings.ts           # Typen und Konstanten
+│   ├── websocketClient.ts    # WebSocket-Client
+│   ├── availabilityAccessory.ts  # Verfügbarkeits-Schalter
+│   └── alarmAccessory.ts     # Alarm-Kontaktsensor
+├── config.schema.json        # Homebridge Config UI Schema
+├── package.json
+├── tsconfig.json
+└── README.md
+```
+
+## Lizenz
+
+MIT
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Bei Fragen oder Problemen:
+- GitHub Issues: [https://github.com/yourusername/homebridge-revplus/issues](https://github.com/yourusername/homebridge-revplus/issues)
+- REV Plus Support: [support@revosax.de](mailto:support@revosax.de)
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+## Changelog
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### 1.0.0
+- Initiale Release
+- Verfügbarkeits-Schalter mit Status-Persistierung
+- Alarm-Kontaktsensor mit automatischem Reset
+- Detailliertes Logging
+- Automatische Wiederverbindung bei Verbindungsabbruch
