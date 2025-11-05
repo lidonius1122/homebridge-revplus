@@ -52,10 +52,13 @@ export class AlarmAccessory {
    * Trigger the alarm sensor when receiving an alert
    */
   public triggerAlarm(alert: AlertMessage): void {
-    this.platform.log.info('Triggering alarm contact sensor');
+    this.platform.log.info('AlarmAccessory.triggerAlarm called');
+    this.platform.log.info('Alert einsatznummer:', alert.einsatznummer);
 
     // Set triggered state
     this.isTriggered = true;
+
+    this.platform.log.info('Setting contact sensor to CONTACT_NOT_DETECTED (triggered)');
 
     // Update HomeKit characteristic (1 = open/triggered)
     this.service.updateCharacteristic(
@@ -66,6 +69,7 @@ export class AlarmAccessory {
     // Cancel any existing reset timer
     if (this.resetTimer) {
       clearTimeout(this.resetTimer);
+      this.platform.log.info('Cleared existing reset timer');
     }
 
     // Schedule automatic reset based on configured duration
@@ -75,6 +79,8 @@ export class AlarmAccessory {
     this.resetTimer = setTimeout(() => {
       this.resetSensor();
     }, duration);
+
+    this.platform.log.info('Alarm trigger complete');
   }
 
   /**

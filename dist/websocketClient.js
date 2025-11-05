@@ -36,11 +36,17 @@ class REVPlusWebSocketClient {
             });
             this.ws.on('message', (data) => {
                 try {
-                    const message = JSON.parse(data.toString());
+                    const rawMessage = data.toString();
+                    this.log.info('━━━━━━━ RAW WEBSOCKET MESSAGE ━━━━━━━');
+                    this.log.info(rawMessage);
+                    this.log.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+                    const message = JSON.parse(rawMessage);
+                    this.log.info(`Parsed message type: ${message.type}`);
                     this.handleMessage(message);
                 }
                 catch (error) {
                     this.log.error('Failed to parse WebSocket message:', error);
+                    this.log.error('Raw data:', data.toString());
                 }
             });
             this.ws.on('error', (error) => {
@@ -77,22 +83,25 @@ class REVPlusWebSocketClient {
         this.log.info('WebSocket disconnected');
     }
     handleMessage(message) {
-        this.log.debug(`Received message type: ${message.type}`);
+        this.log.info(`Processing message type: ${message.type}`);
         switch (message.type) {
             case settings_1.MessageType.Connected:
                 this.handleConnected(message.message);
                 break;
             case settings_1.MessageType.Alert:
+                this.log.info('Alert message detected, calling handler...');
                 this.handleAlert(message.message);
                 break;
             case settings_1.MessageType.Update:
-                this.log.debug('Received update message (ignored)');
+                this.log.info('Received update message (ignored as per requirements)');
                 break;
             case settings_1.MessageType.Availability:
+                this.log.info('Availability message detected, calling handler...');
                 this.handleAvailability(message.message);
                 break;
             default:
                 this.log.warn(`Unknown message type: ${message.type}`);
+                this.log.warn(`Full message: ${JSON.stringify(message)}`);
         }
     }
     handleConnected(message) {
@@ -118,7 +127,11 @@ class REVPlusWebSocketClient {
         this.log.info(`Priorität: ${alert.properties.prio} | SOSI: ${alert.properties.sosi ? 'Ja' : 'Nein'}`);
         this.log.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
         if (this.handlers.onAlert) {
+            this.log.info('Calling onAlert handler...');
             this.handlers.onAlert(alert);
+        }
+        else {
+            this.log.warn('No onAlert handler registered!');
         }
     }
     handleAvailability(availability) {
@@ -134,7 +147,11 @@ class REVPlusWebSocketClient {
         const statusName = statusNames[availability.availability] || 'Unbekannt';
         this.log.info(`Verfügbarkeitsstatus geändert: ${statusName} (${availability.availability})`);
         if (this.handlers.onAvailability) {
+            this.log.info('Calling onAvailability handler...');
             this.handlers.onAvailability(availability);
+        }
+        else {
+            this.log.warn('No onAvailability handler registered!');
         }
     }
     scheduleReconnect() {

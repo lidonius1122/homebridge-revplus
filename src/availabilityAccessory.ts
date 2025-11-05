@@ -65,6 +65,8 @@ export class AvailabilityAccessory {
    * Update the availability status from WebSocket message
    */
   public updateStatus(availability: AvailabilityMessage): void {
+    this.platform.log.info('AvailabilityAccessory.updateStatus called with:', JSON.stringify(availability));
+
     this.currentStatus = availability.availability;
     const isOn = this.isAvailable(this.currentStatus);
 
@@ -75,6 +77,8 @@ export class AvailabilityAccessory {
 
     // Save to persistent storage
     this.saveStatus();
+
+    this.platform.log.info('Availability status update complete');
   }
 
   /**

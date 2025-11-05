@@ -36,11 +36,13 @@ class AvailabilityAccessory {
         }, 500);
     }
     updateStatus(availability) {
+        this.platform.log.info('AvailabilityAccessory.updateStatus called with:', JSON.stringify(availability));
         this.currentStatus = availability.availability;
         const isOn = this.isAvailable(this.currentStatus);
         this.platform.log.info(`Updating availability switch: ${isOn ? 'ON' : 'OFF'} (status: ${this.currentStatus})`);
         this.service.updateCharacteristic(this.platform.Characteristic.On, isOn);
         this.saveStatus();
+        this.platform.log.info('Availability status update complete');
     }
     isAvailable(status) {
         return status === settings_1.AvailabilityStatus.Available || status === settings_1.AvailabilityStatus.DelayedAvailable;

@@ -87,18 +87,30 @@ class REVPlusPlatform {
     }
     setupWebSocket() {
         this.log.info('Setting up WebSocket connection...');
+        this.log.info(`Alarm accessory initialized: ${this.alarmAccessory ? 'YES' : 'NO'}`);
+        this.log.info(`Availability accessory initialized: ${this.availabilityAccessory ? 'YES' : 'NO'}`);
         this.wsClient = new websocketClient_1.REVPlusWebSocketClient(this.config.accessToken, this.log, {
             onConnected: (user) => {
                 this.log.info(`Successfully connected as: ${user}`);
             },
             onAlert: (alert) => {
+                this.log.info('Platform.onAlert handler called');
                 if (this.alarmAccessory) {
+                    this.log.info('Alarm accessory exists, calling triggerAlarm...');
                     this.alarmAccessory.triggerAlarm(alert);
+                }
+                else {
+                    this.log.error('Alarm accessory is NULL! Cannot trigger alarm.');
                 }
             },
             onAvailability: (availability) => {
+                this.log.info('Platform.onAvailability handler called');
                 if (this.availabilityAccessory) {
+                    this.log.info('Availability accessory exists, calling updateStatus...');
                     this.availabilityAccessory.updateStatus(availability);
+                }
+                else {
+                    this.log.error('Availability accessory is NULL! Cannot update status.');
                 }
             },
             onError: (error) => {

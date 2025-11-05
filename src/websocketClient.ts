@@ -53,10 +53,18 @@ export class REVPlusWebSocketClient {
 
       this.ws.on('message', (data: WebSocket.Data) => {
         try {
-          const message: WSMessage = JSON.parse(data.toString());
+          const rawMessage = data.toString();
+          this.log.info('━━━━━━━ RAW WEBSOCKET MESSAGE ━━━━━━━');
+          this.log.info(rawMessage);
+          this.log.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+          const message: WSMessage = JSON.parse(rawMessage);
+          this.log.info(`Parsed message type: ${message.type}`);
+
           this.handleMessage(message);
         } catch (error) {
           this.log.error('Failed to parse WebSocket message:', error);
+          this.log.error('Raw data:', data.toString());
         }
       });
 
@@ -108,7 +116,7 @@ export class REVPlusWebSocketClient {
    * Handle incoming WebSocket messages
    */
   private handleMessage(message: WSMessage): void {
-    this.log.debug(`Received message type: ${message.type}`);
+    this.log.info(`Processing message type: ${message.type}`);
 
     switch (message.type) {
       case MessageType.Connected:
@@ -116,20 +124,23 @@ export class REVPlusWebSocketClient {
         break;
 
       case MessageType.Alert:
+        this.log.info('Alert message detected, calling handler...');
         this.handleAlert(message.message as AlertMessage);
         break;
 
       case MessageType.Update:
         // We ignore updates as per user requirements
-        this.log.debug('Received update message (ignored)');
+        this.log.info('Received update message (ignored as per requirements)');
         break;
 
       case MessageType.Availability:
+        this.log.info('Availability message detected, calling handler...');
         this.handleAvailability(message.message as AvailabilityMessage);
         break;
 
       default:
         this.log.warn(`Unknown message type: ${message.type}`);
+        this.log.warn(`Full message: ${JSON.stringify(message)}`);
     }
   }
 
@@ -168,7 +179,10 @@ export class REVPlusWebSocketClient {
     this.log.info('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 
     if (this.handlers.onAlert) {
+      this.log.info('Calling onAlert handler...');
       this.handlers.onAlert(alert);
+    } else {
+      this.log.warn('No onAlert handler registered!');
     }
   }
 
@@ -190,7 +204,10 @@ export class REVPlusWebSocketClient {
     this.log.info(`Verfügbarkeitsstatus geändert: ${statusName} (${availability.availability})`);
 
     if (this.handlers.onAvailability) {
+      this.log.info('Calling onAvailability handler...');
       this.handlers.onAvailability(availability);
+    } else {
+      this.log.warn('No onAvailability handler registered!');
     }
   }
 
