@@ -26,8 +26,13 @@ class REVPlusWebSocketClient {
             return;
         }
         this.isIntentionallyClosed = false;
-        const url = `${settings_1.WS_API_URL}?AccessToken=${this.accessToken}`;
+        const encodedToken = encodeURIComponent(this.accessToken);
+        const url = `${settings_1.WS_API_URL}?AccessToken=${encodedToken}`;
         this.log.info('Connecting to REV Plus WebSocket API...');
+        this.log.debug(`WebSocket URL: ${settings_1.WS_API_URL}`);
+        this.log.debug(`Access Token length: ${this.accessToken.length} characters`);
+        this.log.debug(`Access Token starts with: ${this.accessToken.substring(0, 10)}...`);
+        this.log.debug(`Token is URL-encoded for WebSocket connection`);
         try {
             this.ws = new ws_1.default(url);
             this.ws.on('open', () => {
@@ -50,7 +55,10 @@ class REVPlusWebSocketClient {
                 }
             });
             this.ws.on('error', (error) => {
-                this.log.error('WebSocket error:', error.message);
+                this.log.error('━━━━━━━ WEBSOCKET ERROR ━━━━━━━');
+                this.log.error('Error message:', error.message);
+                this.log.error('Error details:', JSON.stringify(error, null, 2));
+                this.log.error('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
                 if (this.handlers.onError) {
                     this.handlers.onError(error);
                 }
